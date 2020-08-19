@@ -26,6 +26,7 @@ class RNNModel(nn.Module):
         # Number of hidden layers
         self.layer_dim = layer_dim
         
+        self.cell_type = cell_type
         #define the model's cell
         if cell_type == "gru":
             self.cell = nn.GRUCell(input_dim, hidden_dim)
@@ -54,15 +55,18 @@ class RNNModel(nn.Module):
             h0 = Variable(torch.zeros(self.layer_dim, x.size(0), self.hidden_dim).cuda())
         else:
             h0 = Variable(torch.zeros(self.layer_dim, x.size(0), self.hidden_dim))
-         
-       
+        
         outs = []
-        
-        hn = h0[0,:,:]
-        
+
+        if (self.cell_type == "gru"):
+            hn = h0[0,:,:]
+        else:
+            c0 = h0
+            hn = h0[0,:,:],c0[0,:,:]
+
         for seq in range(x.size(1)):
             hn = self.cell(x[:,seq,:], hn) 
-            outs.append(hn)
+            outs.append(hn[0])
             
 
         out = outs[-1].squeeze()
