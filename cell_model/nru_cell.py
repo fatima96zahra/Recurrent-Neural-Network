@@ -60,6 +60,7 @@ class NRUCell(nn.Module):
             return x
 
     def forward(self, input, last_hidden):
+        print("model_nru")
         hidden = {}
         c_input = torch.cat((input, last_hidden["h"], last_hidden["memory"]), 1)
 

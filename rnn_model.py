@@ -25,11 +25,11 @@ class RNNModel(nn.Module):
          
         # Number of hidden layers
         self.layer_dim = layer_dim
-        
         self.cell_type = cell_type
         #define the model's cell
         if cell_type == "gru":
             self.cell = nn.GRUCell(input_dim, hidden_dim)
+            print("gru")
         elif cell_type == "lstm":
             self.cell = nn.LSTMCell(input_dim, hidden_dim)
         elif cell_type == "janet":
@@ -65,10 +65,12 @@ class RNNModel(nn.Module):
             hn = h0[0,:,:],c0[0,:,:]
 
         for seq in range(x.size(1)):
-            hn = self.cell(x[:,seq,:], hn) 
-            outs.append(hn[0])
+            hn = self.cell(x[:,seq,:], hn)
+            if (self.cell_type == "gru"):
+                outs.append(hn)
+            else:
+                outs.append(hn[0])
             
-
         out = outs[-1].squeeze()
         out = self.fc(out) 
         
