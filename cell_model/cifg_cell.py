@@ -15,6 +15,8 @@ import torch.nn.functional as F
 import numpy as np
 import math
 
+import energyusage
+
 class CIFGCell(nn.Module):
     def __init__(self, input_size, hidden_size, bias=True):
         super(CIFGCell, self).__init__()
