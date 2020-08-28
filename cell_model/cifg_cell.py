@@ -15,8 +15,6 @@ import torch.nn.functional as F
 import numpy as np
 import math
 
-import energyusage
-
 class CIFGCell(nn.Module):
     def __init__(self, input_size, hidden_size, bias=True):
         super(CIFGCell, self).__init__()
@@ -32,7 +30,7 @@ class CIFGCell(nn.Module):
         std = 1.0 / math.sqrt(self.hidden_size)
         for w in self.parameters():
             w.data.uniform_(-std, std)
-        
+            
     def forward(self, x, hidden):
         hx, cx = hidden
         

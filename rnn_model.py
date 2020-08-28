@@ -43,7 +43,6 @@ class RNNModel(nn.Module):
         self.fc = nn.Linear(hidden_dim, output_dim)
      
     
-    
     def forward(self, x):
         
         # Initialize hidden state with zeros
